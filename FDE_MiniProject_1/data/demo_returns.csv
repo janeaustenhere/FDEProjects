@@ -1,0 +1,201 @@
+return_id,sku_id,vendor,category,return_reason,return_comment,expected_primary,expected_sub
+R0001,D904,Meera Fashions,Top,Late Delivery,bahut late deliver hua event miss ho gaya,DELIVERY_OR_PACKAGING,LATE_DELIVERY
+R0002,D221,Meera Fashions,Dress,Other,kapda quality bahut cheap lag raha,QUALITY,FABRIC_QUALITY
+R0003,D904,Meera Fashions,Shirt,Size Issue,size tight hai aur stitching bhi kharab hai,FIT,TOO_TIGHT
+R0004,K102,Aarav Textiles,Kurti,Size Issue,waist me bahut loose hai,FIT,TOO_LOOSE
+R0005,S118,Northstar Apparel,Shirt,Size Issue,waist me bahut loose hai,FIT,TOO_LOOSE
+R0006,D904,Meera Fashions,Shirt,Size Issue,size bahut chota hai,FIT,TOO_SMALL
+R0007,S118,Northstar Apparel,Top,Defective Pieces,dress pe stain tha,DAMAGED_OR_DEFECTIVE,STAINED
+R0008,T110,Urban Loom,Kurti,Other,problem hai,UNCERTAIN,
+R0009,T110,Urban Loom,Dress,Other,return karna hai,UNCERTAIN,
+R0010,K450,Aarav Textiles,Top,Other,fit good hai but colour different hai,PRODUCT_MISMATCH,COLOUR_MISMATCH
+R0011,D221,Meera Fashions,Dress,Other,stitching nikal rahi hai,QUALITY,STITCHING
+R0012,T332,Urban Loom,Kurti,Other,return karna hai,UNCERTAIN,
+R0013,T332,Urban Loom,Top,Size Issue,waist me bahut loose hai,FIT,TOO_LOOSE
+R0014,T332,Urban Loom,Kurti,Other,packaging pura damaged tha,DELIVERY_OR_PACKAGING,PACKAGING_DAMAGED
+R0015,K102,Aarav Textiles,Kidswear,Size Issue,size tight hai aur stitching bhi kharab hai,FIT,TOO_TIGHT
+R0016,T110,Urban Loom,Shirt,Size Issue,waist me bahut loose hai,FIT,TOO_LOOSE
+R0017,T332,Urban Loom,Shirt,Other,,UNCERTAIN,
+R0018,K102,Aarav Textiles,Dress,Other,usual M leti hu par ye M bilkul alag fit hua,SIZE_INFORMATION,SIZE_NOT_AS_EXPECTED
+R0019,T332,Urban Loom,Kurti,Other,return karna hai,UNCERTAIN,
+R0020,D221,Meera Fashions,Kurti,Other,,UNCERTAIN,
+R0021,D904,Meera Fashions,Top,Defective Pieces,zip broken hai,DAMAGED_OR_DEFECTIVE,BROKEN
+R0022,D221,Meera Fashions,Top,Size Issue,size chart says 40 but actual smaller,SIZE_INFORMATION,SIZE_CHART_MISMATCH
+R0023,D904,Meera Fashions,Kurti,Other,fit good hai but colour different hai,PRODUCT_MISMATCH,COLOUR_MISMATCH
+R0024,D904,Meera Fashions,Dress,Other,packaging pura damaged tha,DELIVERY_OR_PACKAGING,PACKAGING_DAMAGED
+R0025,D904,Meera Fashions,Dress,Other,acha nahi laga,CUSTOMER_PREFERENCE,DID_NOT_LIKE
+R0026,T332,Urban Loom,Shirt,Size Issue,size chart says 40 but actual smaller,SIZE_INFORMATION,SIZE_CHART_MISMATCH
+R0027,D904,Meera Fashions,Top,Other,kapda quality bahut cheap lag raha,QUALITY,FABRIC_QUALITY
+R0028,T110,Urban Loom,Kurti,Other,not good,UNCERTAIN,
+R0029,T110,Urban Loom,Kurti,Other,kapda quality bahut cheap lag raha,QUALITY,FABRIC_QUALITY
+R0030,T332,Urban Loom,Kidswear,Other,problem hai,UNCERTAIN,
+R0031,K102,Aarav Textiles,Dress,Other,stitching nikal rahi hai,QUALITY,STITCHING
+R0032,D904,Meera Fashions,Top,Other,ab nahi chahiye changed my mind,CUSTOMER_PREFERENCE,CHANGED_MIND
+R0033,K450,Aarav Textiles,Kidswear,Size Issue,usual M leti hu par ye M bilkul alag fit hua,SIZE_INFORMATION,SIZE_NOT_AS_EXPECTED
+R0034,D221,Meera Fashions,Shirt,Size Issue,length mere liye too short hai,FIT,TOO_SHORT
+R0035,T332,Urban Loom,Shirt,Other,acha nahi laga,CUSTOMER_PREFERENCE,DID_NOT_LIKE
+R0036,K450,Aarav Textiles,Top,Other,dress pe stain tha,DAMAGED_OR_DEFECTIVE,STAINED
+R0037,D221,Meera Fashions,Shirt,Other,kapda quality bahut cheap lag raha,QUALITY,FABRIC_QUALITY
+R0038,K102,Aarav Textiles,Kurti,Wrong Item,M order kiya tha L deliver hua,WRONG_ITEM,WRONG_SIZE_SENT
+R0039,T110,Urban Loom,Kidswear,Size Issue,length mere liye too short hai,FIT,TOO_SHORT
+R0040,K102,Aarav Textiles,Kidswear,Other,packaging pura damaged tha,DELIVERY_OR_PACKAGING,PACKAGING_DAMAGED
+R0041,K450,Aarav Textiles,Shirt,Defective Pieces,zip broken hai,DAMAGED_OR_DEFECTIVE,BROKEN
+R0042,S118,Northstar Apparel,Kurti,Other,stitching nikal rahi hai,QUALITY,STITCHING
+R0043,D904,Meera Fashions,Shirt,Other,parcel delivered show ho raha but mujhe mila hi nahi,DELIVERY_OR_PACKAGING,NOT_DELIVERED
+R0044,T332,Urban Loom,Top,Other,return karna hai,UNCERTAIN,
+R0045,D221,Meera Fashions,Kidswear,Size Issue,sleeves bahut long hai,FIT,TOO_LONG
+R0046,D904,Meera Fashions,Top,Other,size bahut chota hai,FIT,TOO_SMALL
+R0047,S118,Northstar Apparel,Kurti,Other,blue order kiya red mila,WRONG_ITEM,WRONG_COLOUR_SENT
+R0048,D904,Meera Fashions,Top,Other,,UNCERTAIN,
+R0049,D904,Meera Fashions,Shirt,Other,not good,UNCERTAIN,
+R0050,D221,Meera Fashions,Dress,Other,packaging pura damaged tha,DELIVERY_OR_PACKAGING,PACKAGING_DAMAGED
+R0051,T110,Urban Loom,Dress,Other,product photo jaisa bilkul nahi hai,PRODUCT_MISMATCH,IMAGE_MISMATCH
+R0052,T110,Urban Loom,Shirt,Other,acha nahi laga,CUSTOMER_PREFERENCE,DID_NOT_LIKE
+R0053,K450,Aarav Textiles,Kurti,Size Issue,size bahut chota hai,FIT,TOO_SMALL
+R0054,T110,Urban Loom,Top,Other,sleeves bahut long hai,FIT,TOO_LONG
+R0055,K102,Aarav Textiles,Dress,Other,kapda quality bahut cheap lag raha,QUALITY,FABRIC_QUALITY
+R0056,K102,Aarav Textiles,Kurti,Other,ab nahi chahiye changed my mind,CUSTOMER_PREFERENCE,CHANGED_MIND
+R0057,K102,Aarav Textiles,Shirt,Size Issue,size tight hai aur stitching bhi kharab hai,FIT,TOO_TIGHT
+R0058,D221,Meera Fashions,Dress,Other,return karna hai,UNCERTAIN,
+R0059,S118,Northstar Apparel,Dress,Not Delivered,parcel delivered show ho raha but mujhe mila hi nahi,DELIVERY_OR_PACKAGING,NOT_DELIVERED
+R0060,S118,Northstar Apparel,Shirt,Other,stitching nikal rahi hai,QUALITY,STITCHING
+R0061,S118,Northstar Apparel,Dress,Other,dress pe stain tha,DAMAGED_OR_DEFECTIVE,STAINED
+R0062,T332,Urban Loom,Kidswear,Other,fit good hai but colour different hai,PRODUCT_MISMATCH,COLOUR_MISMATCH
+R0063,K450,Aarav Textiles,Shirt,Not Delivered,parcel delivered show ho raha but mujhe mila hi nahi,DELIVERY_OR_PACKAGING,NOT_DELIVERED
+R0064,D221,Meera Fashions,Kurti,Defective Pieces,kurti mein hole hai,DAMAGED_OR_DEFECTIVE,TORN
+R0065,K102,Aarav Textiles,Shirt,Other,colour pic se totally different,PRODUCT_MISMATCH,COLOUR_MISMATCH
+R0066,D221,Meera Fashions,Shirt,Other,acha nahi laga,CUSTOMER_PREFERENCE,DID_NOT_LIKE
+R0067,K102,Aarav Textiles,Kurti,Other,kapda quality bahut cheap lag raha,QUALITY,FABRIC_QUALITY
+R0068,D904,Meera Fashions,Kurti,Other,fit good hai but colour different hai,PRODUCT_MISMATCH,COLOUR_MISMATCH
+R0069,K102,Aarav Textiles,Kurti,Other,kapda quality bahut cheap lag raha,QUALITY,FABRIC_QUALITY
+R0070,T332,Urban Loom,Kurti,Other,,UNCERTAIN,
+R0071,D904,Meera Fashions,Kidswear,Wrong Item,blue order kiya red mila,WRONG_ITEM,WRONG_COLOUR_SENT
+R0072,D904,Meera Fashions,Shirt,Size Issue,usual M leti hu par ye M bilkul alag fit hua,SIZE_INFORMATION,SIZE_NOT_AS_EXPECTED
+R0073,K450,Aarav Textiles,Dress,Other,ab nahi chahiye changed my mind,CUSTOMER_PREFERENCE,CHANGED_MIND
+R0074,K450,Aarav Textiles,Kidswear,Other,problem hai,UNCERTAIN,
+R0075,D904,Meera Fashions,Kidswear,Size Issue,usual M leti hu par ye M bilkul alag fit hua,SIZE_INFORMATION,SIZE_NOT_AS_EXPECTED
+R0076,K450,Aarav Textiles,Kidswear,Other,product photo jaisa bilkul nahi hai,PRODUCT_MISMATCH,IMAGE_MISMATCH
+R0077,K102,Aarav Textiles,Kurti,Other,kurti mein hole hai,DAMAGED_OR_DEFECTIVE,TORN
+R0078,T332,Urban Loom,Kurti,Size Issue,XL mangaya fir bhi chest me tight,FIT,TOO_TIGHT
+R0079,D221,Meera Fashions,Dress,Other,kapda quality bahut cheap lag raha,QUALITY,FABRIC_QUALITY
+R0080,K450,Aarav Textiles,Dress,Other,acha nahi laga,CUSTOMER_PREFERENCE,DID_NOT_LIKE
+R0081,K450,Aarav Textiles,Dress,Defective Pieces,dress pe stain tha,DAMAGED_OR_DEFECTIVE,STAINED
+R0082,K102,Aarav Textiles,Kidswear,Other,,UNCERTAIN,
+R0083,T110,Urban Loom,Shirt,Other,problem hai,UNCERTAIN,
+R0084,S118,Northstar Apparel,Kurti,Size Issue,sleeves bahut long hai,FIT,TOO_LONG
+R0085,T110,Urban Loom,Dress,Other,waist me bahut loose hai,FIT,TOO_LOOSE
+R0086,K450,Aarav Textiles,Dress,Size Issue,size chart says 40 but actual smaller,SIZE_INFORMATION,SIZE_CHART_MISMATCH
+R0087,K450,Aarav Textiles,Kurti,Other,,UNCERTAIN,
+R0088,K450,Aarav Textiles,Top,Size Issue,size chart says 40 but actual smaller,SIZE_INFORMATION,SIZE_CHART_MISMATCH
+R0089,T110,Urban Loom,Kidswear,Other,problem hai,UNCERTAIN,
+R0090,K450,Aarav Textiles,Shirt,Other,photo mein cotton jaisa tha actual material different lag raha,QUALITY,MATERIAL_EXPECTATION
+R0091,D221,Meera Fashions,Dress,Other,parcel delivered show ho raha but mujhe mila hi nahi,DELIVERY_OR_PACKAGING,NOT_DELIVERED
+R0092,D221,Meera Fashions,Kurti,Other,photo mein cotton jaisa tha actual material different lag raha,QUALITY,MATERIAL_EXPECTATION
+R0093,D904,Meera Fashions,Shirt,Other,ab nahi chahiye changed my mind,CUSTOMER_PREFERENCE,CHANGED_MIND
+R0094,K102,Aarav Textiles,Kurti,Other,XL mangaya fir bhi chest me tight,FIT,TOO_TIGHT
+R0095,K450,Aarav Textiles,Shirt,Other,ab nahi chahiye changed my mind,CUSTOMER_PREFERENCE,CHANGED_MIND
+R0096,S118,Northstar Apparel,Dress,Other,,UNCERTAIN,
+R0097,K102,Aarav Textiles,Dress,Other,XL mangaya fir bhi chest me tight,FIT,TOO_TIGHT
+R0098,D904,Meera Fashions,Dress,Size Issue,waist me bahut loose hai,FIT,TOO_LOOSE
+R0099,S118,Northstar Apparel,Dress,Defective Pieces,zip broken hai,DAMAGED_OR_DEFECTIVE,BROKEN
+R0100,S118,Northstar Apparel,Kurti,Other,ab nahi chahiye changed my mind,CUSTOMER_PREFERENCE,CHANGED_MIND
+R0101,K102,Aarav Textiles,Kidswear,Other,packaging pura damaged tha,DELIVERY_OR_PACKAGING,PACKAGING_DAMAGED
+R0102,S118,Northstar Apparel,Top,Not Delivered,parcel delivered show ho raha but mujhe mila hi nahi,DELIVERY_OR_PACKAGING,NOT_DELIVERED
+R0103,D221,Meera Fashions,Top,Other,stitching nikal rahi hai,QUALITY,STITCHING
+R0104,T332,Urban Loom,Kidswear,Other,kapda quality bahut cheap lag raha,QUALITY,FABRIC_QUALITY
+R0105,T332,Urban Loom,Kidswear,Size Issue,length mere liye too short hai,FIT,TOO_SHORT
+R0106,T110,Urban Loom,Kurti,Other,colour pic se totally different,PRODUCT_MISMATCH,COLOUR_MISMATCH
+R0107,S118,Northstar Apparel,Kurti,Size Issue,size bahut chota hai,FIT,TOO_SMALL
+R0108,S118,Northstar Apparel,Top,Size Issue,waist me bahut loose hai,FIT,TOO_LOOSE
+R0109,K102,Aarav Textiles,Dress,Other,length mere liye too short hai,FIT,TOO_SHORT
+R0110,T332,Urban Loom,Dress,Other,product photo jaisa bilkul nahi hai,PRODUCT_MISMATCH,IMAGE_MISMATCH
+R0111,D904,Meera Fashions,Top,Other,kurti mein hole hai,DAMAGED_OR_DEFECTIVE,TORN
+R0112,T110,Urban Loom,Shirt,Other,packaging pura damaged tha,DELIVERY_OR_PACKAGING,PACKAGING_DAMAGED
+R0113,S118,Northstar Apparel,Top,Size Issue,size bahut chota hai,FIT,TOO_SMALL
+R0114,D221,Meera Fashions,Top,Not Delivered,parcel delivered show ho raha but mujhe mila hi nahi,DELIVERY_OR_PACKAGING,NOT_DELIVERED
+R0115,D904,Meera Fashions,Shirt,Other,sleeves bahut long hai,FIT,TOO_LONG
+R0116,S118,Northstar Apparel,Dress,Size Issue,length mere liye too short hai,FIT,TOO_SHORT
+R0117,T332,Urban Loom,Dress,Other,fit good hai but colour different hai,PRODUCT_MISMATCH,COLOUR_MISMATCH
+R0118,T332,Urban Loom,Shirt,Not Delivered,parcel delivered show ho raha but mujhe mila hi nahi,DELIVERY_OR_PACKAGING,NOT_DELIVERED
+R0119,T110,Urban Loom,Kurti,Wrong Item,M order kiya tha L deliver hua,WRONG_ITEM,WRONG_SIZE_SENT
+R0120,T110,Urban Loom,Top,Size Issue,waist me bahut loose hai,FIT,TOO_LOOSE
+R0121,T110,Urban Loom,Dress,Size Issue,XL mangaya fir bhi chest me tight,FIT,TOO_TIGHT
+R0122,D221,Meera Fashions,Kidswear,Other,bahut late deliver hua event miss ho gaya,DELIVERY_OR_PACKAGING,LATE_DELIVERY
+R0123,D904,Meera Fashions,Kidswear,Other,acha nahi laga,CUSTOMER_PREFERENCE,DID_NOT_LIKE
+R0124,K102,Aarav Textiles,Kurti,Other,acha nahi laga,CUSTOMER_PREFERENCE,DID_NOT_LIKE
+R0125,D904,Meera Fashions,Dress,Other,waist me bahut loose hai,FIT,TOO_LOOSE
+R0126,K102,Aarav Textiles,Top,Other,acha nahi laga,CUSTOMER_PREFERENCE,DID_NOT_LIKE
+R0127,S118,Northstar Apparel,Dress,Other,ab nahi chahiye changed my mind,CUSTOMER_PREFERENCE,CHANGED_MIND
+R0128,T332,Urban Loom,Top,Defective Pieces,dress pe stain tha,DAMAGED_OR_DEFECTIVE,STAINED
+R0129,T110,Urban Loom,Kurti,Other,problem hai,UNCERTAIN,
+R0130,D221,Meera Fashions,Dress,Other,product photo jaisa bilkul nahi hai,PRODUCT_MISMATCH,IMAGE_MISMATCH
+R0131,T110,Urban Loom,Shirt,Not Delivered,parcel delivered show ho raha but mujhe mila hi nahi,DELIVERY_OR_PACKAGING,NOT_DELIVERED
+R0132,K450,Aarav Textiles,Shirt,Other,,UNCERTAIN,
+R0133,D221,Meera Fashions,Dress,Size Issue,size tight hai aur stitching bhi kharab hai,FIT,TOO_TIGHT
+R0134,T110,Urban Loom,Dress,Other,problem hai,UNCERTAIN,
+R0135,D904,Meera Fashions,Top,Defective Pieces,dress pe stain tha,DAMAGED_OR_DEFECTIVE,STAINED
+R0136,K450,Aarav Textiles,Dress,Other,problem hai,UNCERTAIN,
+R0137,D221,Meera Fashions,Kurti,Other,stitching nikal rahi hai,QUALITY,STITCHING
+R0138,T110,Urban Loom,Kidswear,Other,zip broken hai,DAMAGED_OR_DEFECTIVE,BROKEN
+R0139,D221,Meera Fashions,Kidswear,Other,kapda quality bahut cheap lag raha,QUALITY,FABRIC_QUALITY
+R0140,T332,Urban Loom,Dress,Other,product photo jaisa bilkul nahi hai,PRODUCT_MISMATCH,IMAGE_MISMATCH
+R0141,K102,Aarav Textiles,Dress,Other,kapda quality bahut cheap lag raha,QUALITY,FABRIC_QUALITY
+R0142,T110,Urban Loom,Kurti,Defective Pieces,zip broken hai,DAMAGED_OR_DEFECTIVE,BROKEN
+R0143,T332,Urban Loom,Top,Other,return karna hai,UNCERTAIN,
+R0144,D904,Meera Fashions,Shirt,Late Delivery,bahut late deliver hua event miss ho gaya,DELIVERY_OR_PACKAGING,LATE_DELIVERY
+R0145,K102,Aarav Textiles,Kurti,Other,colour pic se totally different,PRODUCT_MISMATCH,COLOUR_MISMATCH
+R0146,D221,Meera Fashions,Shirt,Other,stitching nikal rahi hai,QUALITY,STITCHING
+R0147,K102,Aarav Textiles,Kurti,Other,stitching nikal rahi hai,QUALITY,STITCHING
+R0148,K450,Aarav Textiles,Top,Other,packaging pura damaged tha,DELIVERY_OR_PACKAGING,PACKAGING_DAMAGED
+R0149,K450,Aarav Textiles,Shirt,Other,size tight hai aur stitching bhi kharab hai,FIT,TOO_TIGHT
+R0150,S118,Northstar Apparel,Dress,Wrong Item,blue order kiya red mila,WRONG_ITEM,WRONG_COLOUR_SENT
+R0151,K102,Aarav Textiles,Kidswear,Other,stitching nikal rahi hai,QUALITY,STITCHING
+R0152,T110,Urban Loom,Shirt,Size Issue,size bahut chota hai,FIT,TOO_SMALL
+R0153,D904,Meera Fashions,Dress,Other,parcel delivered show ho raha but mujhe mila hi nahi,DELIVERY_OR_PACKAGING,NOT_DELIVERED
+R0154,K450,Aarav Textiles,Kurti,Other,product photo jaisa bilkul nahi hai,PRODUCT_MISMATCH,IMAGE_MISMATCH
+R0155,S118,Northstar Apparel,Top,Other,parcel delivered show ho raha but mujhe mila hi nahi,DELIVERY_OR_PACKAGING,NOT_DELIVERED
+R0156,D904,Meera Fashions,Top,Other,parcel delivered show ho raha but mujhe mila hi nahi,DELIVERY_OR_PACKAGING,NOT_DELIVERED
+R0157,K450,Aarav Textiles,Top,Wrong Item,blue order kiya red mila,WRONG_ITEM,WRONG_COLOUR_SENT
+R0158,S118,Northstar Apparel,Dress,Defective Pieces,zip broken hai,DAMAGED_OR_DEFECTIVE,BROKEN
+R0159,K450,Aarav Textiles,Dress,Size Issue,usual M leti hu par ye M bilkul alag fit hua,SIZE_INFORMATION,SIZE_NOT_AS_EXPECTED
+R0160,S118,Northstar Apparel,Top,Other,packaging pura damaged tha,DELIVERY_OR_PACKAGING,PACKAGING_DAMAGED
+R0161,K102,Aarav Textiles,Top,Defective Pieces,zip broken hai,DAMAGED_OR_DEFECTIVE,BROKEN
+R0162,D221,Meera Fashions,Kidswear,Other,photo mein cotton jaisa tha actual material different lag raha,QUALITY,MATERIAL_EXPECTATION
+R0163,S118,Northstar Apparel,Shirt,Other,problem hai,UNCERTAIN,
+R0164,K450,Aarav Textiles,Kidswear,Late Delivery,bahut late deliver hua event miss ho gaya,DELIVERY_OR_PACKAGING,LATE_DELIVERY
+R0165,K450,Aarav Textiles,Dress,Not Delivered,parcel delivered show ho raha but mujhe mila hi nahi,DELIVERY_OR_PACKAGING,NOT_DELIVERED
+R0166,S118,Northstar Apparel,Shirt,Not Delivered,parcel delivered show ho raha but mujhe mila hi nahi,DELIVERY_OR_PACKAGING,NOT_DELIVERED
+R0167,K102,Aarav Textiles,Dress,Other,colour pic se totally different,PRODUCT_MISMATCH,COLOUR_MISMATCH
+R0168,T110,Urban Loom,Dress,Not Delivered,parcel delivered show ho raha but mujhe mila hi nahi,DELIVERY_OR_PACKAGING,NOT_DELIVERED
+R0169,D221,Meera Fashions,Kidswear,Size Issue,length mere liye too short hai,FIT,TOO_SHORT
+R0170,T110,Urban Loom,Kurti,Other,packaging pura damaged tha,DELIVERY_OR_PACKAGING,PACKAGING_DAMAGED
+R0171,D904,Meera Fashions,Shirt,Defective Pieces,kurti mein hole hai,DAMAGED_OR_DEFECTIVE,TORN
+R0172,K450,Aarav Textiles,Kidswear,Other,usual M leti hu par ye M bilkul alag fit hua,SIZE_INFORMATION,SIZE_NOT_AS_EXPECTED
+R0173,D904,Meera Fashions,Kurti,Defective Pieces,zip broken hai,DAMAGED_OR_DEFECTIVE,BROKEN
+R0174,T110,Urban Loom,Kurti,Other,return karna hai,UNCERTAIN,
+R0175,K450,Aarav Textiles,Dress,Other,return karna hai,UNCERTAIN,
+R0176,D904,Meera Fashions,Shirt,Other,size chart says 40 but actual smaller,SIZE_INFORMATION,SIZE_CHART_MISMATCH
+R0177,D221,Meera Fashions,Kurti,Defective Pieces,kurti mein hole hai,DAMAGED_OR_DEFECTIVE,TORN
+R0178,K450,Aarav Textiles,Shirt,Defective Pieces,kurti mein hole hai,DAMAGED_OR_DEFECTIVE,TORN
+R0179,S118,Northstar Apparel,Top,Other,acha nahi laga,CUSTOMER_PREFERENCE,DID_NOT_LIKE
+R0180,K450,Aarav Textiles,Shirt,Other,return karna hai,UNCERTAIN,
+R0181,D904,Meera Fashions,Shirt,Other,not good,UNCERTAIN,
+R0182,S118,Northstar Apparel,Kidswear,Other,dress pe stain tha,DAMAGED_OR_DEFECTIVE,STAINED
+R0183,K450,Aarav Textiles,Kidswear,Other,size chart says 40 but actual smaller,SIZE_INFORMATION,SIZE_CHART_MISMATCH
+R0184,T110,Urban Loom,Dress,Other,stitching nikal rahi hai,QUALITY,STITCHING
+R0185,D904,Meera Fashions,Top,Other,not good,UNCERTAIN,
+R0186,T110,Urban Loom,Shirt,Other,return karna hai,UNCERTAIN,
+R0187,T332,Urban Loom,Kidswear,Wrong Item,M order kiya tha L deliver hua,WRONG_ITEM,WRONG_SIZE_SENT
+R0188,D221,Meera Fashions,Top,Other,waist me bahut loose hai,FIT,TOO_LOOSE
+R0189,T332,Urban Loom,Shirt,Other,colour pic se totally different,PRODUCT_MISMATCH,COLOUR_MISMATCH
+R0190,D221,Meera Fashions,Kidswear,Size Issue,waist me bahut loose hai,FIT,TOO_LOOSE
+R0191,D221,Meera Fashions,Dress,Other,fit good hai but colour different hai,PRODUCT_MISMATCH,COLOUR_MISMATCH
+R0192,T332,Urban Loom,Shirt,Size Issue,waist me bahut loose hai,FIT,TOO_LOOSE
+R0193,D221,Meera Fashions,Kidswear,Defective Pieces,kurti mein hole hai,DAMAGED_OR_DEFECTIVE,TORN
+R0194,S118,Northstar Apparel,Kurti,Other,zip broken hai,DAMAGED_OR_DEFECTIVE,BROKEN
+R0195,T110,Urban Loom,Shirt,Other,,UNCERTAIN,
+R0196,T332,Urban Loom,Top,Defective Pieces,zip broken hai,DAMAGED_OR_DEFECTIVE,BROKEN
+R0197,K450,Aarav Textiles,Kidswear,Other,return karna hai,UNCERTAIN,
+R0198,D904,Meera Fashions,Shirt,Other,acha nahi laga,CUSTOMER_PREFERENCE,DID_NOT_LIKE
+R0199,S118,Northstar Apparel,Dress,Other,problem hai,UNCERTAIN,
+R0200,K450,Aarav Textiles,Kidswear,Wrong Item,M order kiya tha L deliver hua,WRONG_ITEM,WRONG_SIZE_SENT

@@ -1,0 +1,868 @@
+# Dhaga & Co. — Discovery Note
+
+**Date:** 30 September 2026
+**Problem Owner:** Neha, Category Head
+
+## 1. Problem
+
+Dhaga & Co. has a **31% overall return rate**, but the Category team cannot reliably identify the underlying reasons driving those returns because **44% of return reasons are captured under “Other” as unstructured free text**.
+
+Neha currently reads a sample of these comments manually and observes that many appear to relate to fit, but she can only review a few hundred at a time. As a result, Dhaga knows that returns are high but does not have a reliable, scalable view of **why customers are returning products**, making it difficult to decide which corrective actions to prioritise.
+
+**Problem statement:**
+**Dhaga & Co. cannot reliably identify the actual drivers behind its 31% return rate at scale, limiting the Category team's ability to take evidence-based action to reduce returns.**
+
+## 2. Who Owns the Problem Today?
+
+**Owner: Neha, Category Head**
+
+Today, return reasons are captured through a dropdown with an “Other” free-text field. Neha manually reads samples of the “Other” comments to understand customer complaints.
+
+This does not scale because 44% of returns fall into “Other”, while manual review covers only a small subset. Her current observation is that much of this feedback appears related to fit, but the available process cannot establish how large that problem actually is or systematically surface other recurring return drivers.
+
+## 3. Evidence
+
+The case provides several signals supporting this problem:
+
+- Overall product returns are **31%**.
+- **44% of returns are recorded as “Other”** with free-text explanations.
+- Neha reports that when she manually reads the “Other” comments, **most appear to be about fit**, but she can only review a few hundred at a time.
+- Catalogue data itself has quality inconsistencies: colour has been entered roughly **90 different ways**, fabric is free text, and size charts differ by vendor.
+- Dhaga has approximately **48,000 orders per week**, meaning return-related decisions operate at meaningful business scale.
+
+The evidence shows both a significant business metric and an information gap: Dhaga measures the return rate, but a large portion of the reasons behind it remain unstructured and difficult to analyse systematically.
+
+## 4. What It Costs Dhaga Today
+
+The directly verified business metric is the **31% overall return rate**.
+
+The brief does not provide the logistics cost per product return, refund-processing cost, margin loss, or the exact number of weekly returned items. Therefore, we should **not invent a rupee value** for the impact.
+
+The measurable operational cost we can establish is the lack of visibility:
+
+**44% of return reasons are not meaningfully structured**, forcing Neha to manually inspect free-text comments and preventing the Category team from understanding return drivers across the full dataset.
+
+The business consequence is that Dhaga may know **how many** products are being returned without reliably knowing **why**, making targeted corrective action difficult.
+
+## 5. What Success Looks Like
+
+The first success criterion is **not an immediate reduction of the 31% return rate**. The proposed intervention identifies return drivers; Dhaga must subsequently act on those findings before return-rate reduction can be attributed to the intervention.
+
+For the MVP, success means:
+
+**Transforming unstructured “Other” return feedback into consistent, structured and reviewable return reasons so that Neha can identify the dominant return drivers without manually reading thousands of comments.**
+
+We would measure:
+
+- percentage of “Other” comments successfully classified into meaningful return-reason categories;
+- classification quality on a human-reviewed sample;
+- percentage of cases where the system is uncertain and explicitly requests/recommends human review;
+- ability to identify recurring return patterns from realistic free-text and Hinglish input; and
+- reduction in manual review required to understand the dominant reasons.
+
+The longer-term business metric remains the **overall return rate**, measured after Dhaga takes targeted action based on identified return drivers.
+
+## 6. Ranked Problem Shortlist
+
+We considered the following problems using four factors: **strength of evidence, measurable business impact, availability of relevant data, and actionability of the insight.**
+
+### 1 — Understanding Product Return Drivers
+
+**Owner:** Neha, Category Head
+
+Returns are 31%, while 44% of return reasons fall into unstructured “Other” text. Relevant return data already exists, and Neha is already manually attempting to extract insight from it.
+
+We ranked this first because it combines a material business metric, a clearly identified owner, an existing manual process, available unstructured data, and a specific information gap that can be tested without assuming the reason in advance.
+
+### 2 — COD Return-to-Origin
+
+**Owner:** Faizan, Head of Supply Chain
+
+COD represents 61% of orders, and COD RTO is **26%**. Each RTO costs approximately **₹120 in logistics**.
+
+This has clear and potentially substantial financial impact. However, the brief does not tell us why COD deliveries become RTO or whether the available data contains the information necessary to identify or prevent those failures. We would need further discovery around delivery-attempt and RTO-reason data before selecting an intervention.
+
+### 3 — WISMO Support Load
+
+**Owner:** Arpita, Head of CX
+
+Dhaga receives approximately **9,000 support tickets per week**, and **58% are some version of “Where is my order?”** Average first response time is nine hours, while agents repeatedly copy and paste a small number of canned replies.
+
+This is a well-evidenced operational problem with a clear owner. However, the brief does not establish why customers need to ask for their order status or whether answering those questions faster addresses the underlying cause.
+
+### 4 — Slow Catalogue Publishing
+
+**Owner:** Vivek, Listing Lead
+
+Sample-to-live takes **6–9 days**, approximately **400 new SKUs are introduced each week**, and missed drop schedules can cause Dhaga to lose the Tuesday traffic spike.
+
+The listing process includes manual attribute entry and product-copy creation, making it a credible opportunity. However, the brief does not establish how much of the 6–9-day cycle is caused specifically by listing work versus photography, approvals or other upstream activities. Further discovery would therefore be needed before concluding which intervention would materially shorten the overall cycle.
+
+## 7. Biggest Assumption
+
+Our biggest assumption is:
+
+**The unstructured “Other” return comments contain enough meaningful and recurring information to identify actionable return drivers.**
+
+Neha's manual observation suggests that many comments concern fit, but this has not been established across the full dataset.
+
+The assumption would be disproved if a representative sample showed that most comments were empty, vague, inconsistent, unrelated to actionable product issues, or could not be classified reliably enough for business decisions.
+
+Before investing further, the cheapest test is therefore to process a realistic sample of “Other” return comments and evaluate whether recurring reasons can be extracted consistently and validated by a human reviewer.
+
+If that assumption holds, we proceed to an MVP that turns unstructured return feedback into structured return intelligence. If it does not, we reconsider the problem rather than forcing a technology solution onto unsuitable data.
+
+
+
+
+# Dhaga & Co. — Returns Intelligence MVP Specification
+
+## 1. MVP Objective
+
+Build a **Returns Intelligence application** for Neha, Category Head, that converts unstructured customer return comments currently captured under **“Other”** into consistent, structured return reasons and aggregates those reasons into actionable insights.
+
+The MVP is intended to answer:
+
+> **Why are customers returning products, and which return reasons should the Category team investigate first?**
+
+The MVP does **not** attempt to reduce returns automatically. Its purpose is to give the Category team reliable visibility into return drivers so that Dhaga can decide what corrective action to take.
+
+---
+
+# 2. Primary User
+
+**Neha — Category Head**
+
+Current workflow:
+
+1. Customer selects a return reason.
+2. Many customers select **“Other.”**
+3. Customer enters free-text feedback.
+4. Neha manually reads a sample of these comments.
+5. She observes that many appear related to fit.
+6. She cannot review enough comments to quantify the problem reliably.
+
+The MVP replaces large-scale manual reading with structured analysis while retaining human review for uncertain cases.
+
+---
+
+# 3. MVP Input
+
+The system accepts a CSV containing realistic return records.
+
+Minimum schema:
+
+| Field | Description |
+|---|---|
+| `return_id` | Unique return identifier |
+| `sku_id` | Product/SKU identifier |
+| `category` | Product category |
+| `return_reason` | Existing dropdown value |
+| `return_comment` | Customer's free-text explanation |
+
+Example:
+
+```csv
+return_id,sku_id,category,return_reason,return_comment
+R001,K102,Kurti,Other,"size M mangaya but bahut tight hai"
+R002,D221,Dress,Other,"colour photo jaisa nahi hai"
+R003,T332,Top,Other,"kapda quality bahut cheap lag raha"
+R004,K102,Kurti,Other,"pasand nahi aaya"
+```
+
+The brief does not provide actual Dhaga return records, so MVP data will be **synthetic but shaped like the described data**, including English, Hinglish, spelling variations, short comments and ambiguous comments.
+
+---
+
+# 4. Return-Reason Taxonomy
+
+The taxonomy should remain intentionally small for the MVP.
+
+We should not create dozens of categories before seeing real Dhaga data.
+
+## A. FIT
+
+The product physically does not fit the customer as expected.
+
+Sub-reasons:
+
+- `TOO_SMALL`
+- `TOO_LARGE`
+- `TOO_TIGHT`
+- `TOO_LOOSE`
+- `TOO_SHORT`
+- `TOO_LONG`
+- `FIT_OTHER`
+
+Optional body-area extraction where explicitly mentioned:
+
+- Chest
+- Waist
+- Hip
+- Shoulder
+- Sleeve
+- Length
+- Other
+
+Example:
+
+> "L size bhi chest pe tight hai"
+
+Result:
+
+```text
+FIT → TOO_TIGHT → CHEST
+```
+
+---
+
+## B. SIZE_INFORMATION
+
+The customer's complaint relates to sizing information rather than simply how the garment fits.
+
+Sub-reasons:
+
+- `SIZE_CHART_MISMATCH`
+- `SIZE_NOT_AS_EXPECTED`
+- `SIZE_INFORMATION_OTHER`
+
+Example:
+
+> "size chart me 40 tha but actual much smaller"
+
+Result:
+
+```text
+SIZE_INFORMATION → SIZE_CHART_MISMATCH
+```
+
+This category is important because the brief explicitly states that **size charts differ by vendor**.
+
+---
+
+## C. QUALITY
+
+Customer reports a perceived product-quality issue.
+
+Sub-reasons:
+
+- `FABRIC_QUALITY`
+- `STITCHING`
+- `FINISHING`
+- `MATERIAL_EXPECTATION`
+- `QUALITY_OTHER`
+
+Examples:
+
+> "kapda bahut cheap hai"
+
+```text
+QUALITY → FABRIC_QUALITY
+```
+
+> "stitching already nikal rahi hai"
+
+```text
+QUALITY → STITCHING
+```
+
+---
+
+## D. PRODUCT_MISMATCH
+
+The received product does not match what the customer expected from the listing.
+
+Sub-reasons:
+
+- `COLOUR_MISMATCH`
+- `IMAGE_MISMATCH`
+- `DESCRIPTION_MISMATCH`
+- `STYLE_MISMATCH`
+- `PRODUCT_MISMATCH_OTHER`
+
+Example:
+
+> "photo me dark green tha but actual colour bilkul different hai"
+
+Result:
+
+```text
+PRODUCT_MISMATCH → COLOUR_MISMATCH
+```
+
+---
+
+## E. DAMAGED_OR_DEFECTIVE
+
+The product arrived damaged or has a clear defect.
+
+Sub-reasons:
+
+- `TORN`
+- `STAINED`
+- `BROKEN`
+- `MISSING_PART`
+- `MANUFACTURING_DEFECT`
+- `DEFECT_OTHER`
+
+Example:
+
+> "dress mein hole hai"
+
+Result:
+
+```text
+DAMAGED_OR_DEFECTIVE → TORN
+```
+
+---
+
+## F. WRONG_ITEM
+
+The customer received something different from what was ordered.
+
+Sub-reasons:
+
+- `WRONG_PRODUCT`
+- `WRONG_SIZE_SENT`
+- `WRONG_COLOUR_SENT`
+- `WRONG_ITEM_OTHER`
+
+---
+
+## G. CUSTOMER_PREFERENCE
+
+The customer does not identify a concrete product defect but no longer wants the product.
+
+Sub-reasons:
+
+- `DID_NOT_LIKE`
+- `CHANGED_MIND`
+- `STYLE_PREFERENCE`
+- `CUSTOMER_PREFERENCE_OTHER`
+
+Example:
+
+> "acha nahi laga"
+
+Result:
+
+```text
+CUSTOMER_PREFERENCE → DID_NOT_LIKE
+```
+
+This should not automatically be converted into quality or fit.
+
+---
+
+## H. DELIVERY_OR_PACKAGING
+
+The return comment explicitly concerns delivery or packaging.
+
+Sub-reasons:
+
+- `LATE_DELIVERY`
+- `PACKAGING_DAMAGED`
+- `DELIVERY_OTHER`
+
+This category should only be selected when the customer explicitly mentions such an issue.
+
+---
+
+## I. OTHER_KNOWN
+
+The comment contains a meaningful reason but does not fit the current taxonomy.
+
+The system retains the extracted explanation so that recurring `OTHER_KNOWN` reasons can later be reviewed and potentially added to the taxonomy.
+
+---
+
+## J. UNCERTAIN
+
+The system cannot determine a reliable reason.
+
+Examples:
+
+> "not good"
+
+> "return karna hai"
+
+> "problem hai"
+
+Result:
+
+```text
+UNCERTAIN
+Needs Human Review = true
+```
+
+The system must **not invent a reason** simply to maximize classification coverage.
+
+---
+
+# 5. Structured Classification Output
+
+Every model classification must return a validated structured object.
+
+Example schema:
+
+```json
+{
+  "return_id": "R001",
+  "primary_reason": "FIT",
+  "sub_reason": "TOO_TIGHT",
+  "body_area": "CHEST",
+  "normalized_summary": "Customer reports the garment is too tight around the chest.",
+  "confidence": 0.94,
+  "needs_human_review": false
+}
+```
+
+For an uncertain case:
+
+```json
+{
+  "return_id": "R005",
+  "primary_reason": "UNCERTAIN",
+  "sub_reason": null,
+  "body_area": null,
+  "normalized_summary": "Customer did not provide enough information to identify a return reason.",
+  "confidence": 0.31,
+  "needs_human_review": true
+}
+```
+
+Schema validation failure must never silently pass downstream.
+
+---
+
+# 6. Processing Workflow
+
+The proposed workflow is:
+
+```text
+CSV Upload
+    │
+    ▼
+Input Validation
+    │
+    ▼
+Text Normalisation
+    │
+    ▼
+Model A
+Bulk Classification
+    │
+    ▼
+Structured Output Validation
+    │
+    ▼
+Confidence / Ambiguity Router
+    │
+    ├───────────────┐
+    │               │
+High Confidence     Low Confidence /
+    │               Ambiguous
+    │               │
+    │               ▼
+    │            Model B
+    │         Re-classification
+    │               │
+    │               ▼
+    │            Evaluator
+    │               │
+    │          ┌────┴────┐
+    │          │         │
+    │       Accept    Human Review
+    │          │         │
+    └──────────┴─────────┘
+               │
+               ▼
+      Deterministic Aggregation
+               │
+               ▼
+      Returns Intelligence Dashboard
+```
+
+---
+
+# 7. Workflow Patterns
+
+## Pattern 1 — Routing
+
+The inexpensive classification model handles normal cases.
+
+Cases that are ambiguous, low-confidence or fail validation are routed to a stronger model.
+
+Why routing is needed:
+
+Processing every comment using the strongest model would increase cost and latency unnecessarily.
+
+Processing every comment using only the cheaper model could reduce classification quality on difficult Hinglish and ambiguous cases.
+
+Routing allows the system to spend additional model capacity only where needed.
+
+---
+
+## Pattern 2 — Evaluator / Optimizer
+
+Complex cases classified by the stronger model are evaluated before acceptance.
+
+The evaluator checks whether:
+
+- the selected category is supported by the original comment;
+- the sub-reason is consistent with the primary reason;
+- unsupported information was invented;
+- the comment should instead be marked uncertain.
+
+If the classification cannot be supported, the record goes to human review.
+
+Why this pattern is needed:
+
+Incorrect classification at scale can create misleading business insights. For this use case, visible uncertainty is preferable to confidently incorrect categorisation.
+
+---
+
+# 8. Code vs Model Boundary
+
+A model should only be used where language understanding or judgment is required.
+
+| Step | Code / Model | Reason |
+|---|---|---|
+| Read CSV | Code | Deterministic |
+| Validate required columns | Code | Deterministic |
+| Remove blank records | Code | Deterministic |
+| Basic text cleanup | Code | Deterministic |
+| Understand Hinglish/free text | Model | Language judgment |
+| Determine return category | Model | Semantic classification |
+| Determine sub-reason | Model | Semantic classification |
+| Extract body area | Model | Language understanding |
+| Validate JSON schema | Code | Deterministic |
+| Route based on validation/confidence | Code | Deterministic |
+| Reclassify ambiguous text | Stronger model | Complex judgment |
+| Evaluate classification | Model | Semantic verification |
+| Count categories | Code | Arithmetic |
+| Calculate percentages | Code | Arithmetic |
+| Rank return drivers | Code | Comparison |
+| Generate charts | Code | Deterministic |
+
+Models must not be used for arithmetic, counting, sorting or percentage calculations.
+
+---
+
+# 9. Two-Model Strategy
+
+The MVP will use at least two different models.
+
+### Model A — Fast / Low-Cost Model
+
+Purpose:
+
+- bulk classification;
+- primary reason;
+- sub-reason;
+- structured extraction.
+
+Characteristics:
+
+- low latency;
+- low cost;
+- low temperature.
+
+### Model B — Stronger Model
+
+Purpose:
+
+- ambiguous cases;
+- difficult Hinglish;
+- complex/multi-reason comments;
+- reclassification/evaluation.
+
+Characteristics:
+
+- higher reasoning capability;
+- higher cost;
+- invoked only for a subset of records.
+
+Exact models will be selected after testing classification quality and measuring cost/latency.
+
+---
+
+# 10. Temperature Strategy
+
+Classification and extraction require consistency rather than creativity.
+
+Therefore:
+
+```text
+Bulk classification:
+Temperature ≈ 0–0.2
+
+Re-classification / evaluation:
+Temperature ≈ 0–0.2
+```
+
+The exact values will be documented with the selected models.
+
+---
+
+# 11. Frontend
+
+The MVP frontend should provide three primary capabilities.
+
+## Screen 1 — Upload & Analyse
+
+Neha can:
+
+- upload return CSV;
+- see number of valid records;
+- start analysis;
+- see processing status;
+- see failed/invalid records.
+
+---
+
+## Screen 2 — Returns Intelligence Dashboard
+
+Display:
+
+**Summary**
+
+- Total returns analysed
+- Successfully classified
+- Needs human review
+- Classification coverage
+
+**Top Return Drivers**
+
+Example:
+
+```text
+Fit                     41%
+Quality                 22%
+Product mismatch        15%
+Customer preference      9%
+Damaged/defective        7%
+Other                     6%
+```
+
+These values are calculated from uploaded data and are not pre-populated assumptions.
+
+**Fit Breakdown**
+
+Example:
+
+```text
+Too Small
+Too Large
+Too Tight
+Too Loose
+Too Short
+Too Long
+```
+
+**Problem SKUs**
+
+Example:
+
+```text
+SKU       Top Issue             Count
+K102      Too Tight               184
+D221      Colour Mismatch         132
+T332      Fabric Quality           98
+```
+
+---
+
+## Screen 3 — Human Review Queue
+
+Display uncertain classifications:
+
+```text
+Customer comment:
+"acha nahi hai expected jaisa"
+
+Suggested reason:
+UNCERTAIN
+
+Confidence:
+0.38
+
+[Choose reason ▼]
+
+[Confirm]
+```
+
+Human corrections should be retained for the current run so that the final dashboard reflects reviewed classifications.
+
+---
+
+# 12. Failure Handling
+
+Failure must be visible.
+
+Examples:
+
+### Blank comment
+
+```text
+Status: Unable to classify
+Reason: No return comment provided
+```
+
+### Ambiguous comment
+
+```text
+Status: Human review required
+Reason: Insufficient information
+```
+
+### Model unavailable
+
+```text
+Status: Processing failed
+Reason: Classification service temporarily unavailable
+```
+
+### Invalid model response
+
+```text
+Status: Validation failed
+Action: Routed for retry/review
+```
+
+The system must never silently substitute a category.
+
+---
+
+# 13. Realistic Test Data
+
+The test dataset should include:
+
+- English;
+- Hinglish;
+- spelling mistakes;
+- very short comments;
+- detailed comments;
+- multiple complaints in one comment;
+- ambiguous comments;
+- blank comments;
+- colour variations;
+- sizing complaints;
+- quality complaints.
+
+Examples:
+
+```text
+"size bahut chota hai"
+
+"XL mangaya fir bhi chest me tight"
+
+"kapda expected jaisa nahi hai"
+
+"colour pic se totally different"
+
+"size chart galat lag raha hai"
+
+"stitching nikal rahi hai"
+
+"acha nahi laga"
+
+"return karna hai"
+
+"fit good hai but colour different hai"
+
+""
+```
+
+The MVP should be tested on a sufficiently varied batch rather than three or four curated examples.
+
+---
+
+# 14. MVP Success Criteria
+
+The MVP succeeds if it demonstrates that:
+
+1. A substantial portion of previously unstructured return comments can be converted into consistent structured reasons.
+
+2. The system handles realistic English/Hinglish and noisy customer input.
+
+3. Classification quality is acceptable on a human-reviewed test sample.
+
+4. Ambiguous cases are surfaced rather than silently misclassified.
+
+5. Neha can identify dominant return drivers without manually reading every comment.
+
+6. Results can be broken down by SKU/category where the uploaded data supports that analysis.
+
+7. The system can quantify how much data remains uncertain.
+
+The MVP does **not** claim success based on reducing Dhaga's 31% return rate. Return-rate reduction is a downstream business metric after Dhaga acts on the insights.
+
+---
+
+# 15. Cost Measurement
+
+For every run, capture:
+
+```text
+Number of records
+Model A calls
+Model B calls
+Evaluator calls
+Input tokens
+Output tokens
+Total model cost
+Average cost per return
+Processing time
+```
+
+Then extrapolate:
+
+```text
+Estimated weekly cost =
+cost per analysed return
+× expected weekly return-analysis volume
+```
+
+The exact weekly volume of product returns is not provided in the case study, so any production cost projection must clearly state its volume assumption rather than presenting it as a verified Dhaga number.
+
+---
+
+# 16. Out of Scope
+
+The MVP will NOT:
+
+- automatically modify product listings;
+- automatically change size charts;
+- contact customers;
+- approve/reject returns;
+- predict whether a customer will return an item;
+- recommend removing a SKU automatically;
+- integrate with Dhaga's production systems;
+- train a custom ML model;
+- attempt to directly reduce the return rate.
+
+Those would be potential later phases after the return drivers have been validated.
+
+---
+
+# 17. Key Assumption Being Tested
+
+**The free-text comments currently captured under “Other” contain enough recurring and meaningful information to identify actionable return drivers at scale.**
+
+The MVP exists primarily to test this assumption.
+
+If the comments consistently reveal patterns such as sizing, fit, quality or listing mismatch, the Category team gains information it currently cannot obtain efficiently.
+
+If most comments are vague or unusable, that is also a valuable discovery outcome: Dhaga may need to improve how return reasons are captured rather than invest further in automated analysis.
+
+---
+
+# 18. MVP Decision
+
+The smallest honest product we will build is therefore:
+
+> **A deployed Returns Intelligence application that accepts realistic Dhaga-shaped return data, classifies unstructured “Other” comments into validated return reasons using a cost-aware multi-model workflow, routes uncertain cases for review, and gives Neha an aggregated view of the return drivers worth investigating.**
+
+The MVP proves whether Dhaga can turn its existing unstructured return feedback into reliable decision-making information before investing in a larger returns-reduction programme.
