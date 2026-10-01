@@ -12,11 +12,11 @@ def render() -> None:
 
 - Existing structured reasons such as Size Issue, Defective Pieces, Not Delivered, and Late Delivery bypass the model.
 - Only records marked Other are sent through AI interpretation.
-- The bulk model handles ordinary language classification in bounded multi-record requests at lower cost and latency.
+- The bulk model handles ordinary language classification in bounded multi-record requests, with a configurable number of batches running concurrently.
 - The router escalates low-confidence, uncertain, contradictory, or multi-issue comments.
 - A high-confidence bulk result must pass evaluator verification before it can be accepted.
 - If the evaluator rejects a bulk result, the strong model reconsiders it and the new result is evaluated again.
-- Final evaluator candidates are processed in configurable batches of 50.
+- Final evaluator candidates are processed in configurable batches of 50, with bounded batch parallelism.
 - The strong model independently reconsiders difficult comments.
 - The evaluator protects aggregate business insight from unsupported classifications.
 - Python—not an LLM—calculates counts, percentages, ranking, filters, and cost.

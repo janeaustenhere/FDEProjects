@@ -56,6 +56,7 @@ LLM_PROVIDER_NAME=OpenRouter
 
 CONFIDENCE_THRESHOLD=0.75
 MAX_CONCURRENT_REQUESTS=5
+MAX_CONCURRENT_BATCHES=3
 MAX_BATCH_SIZE=50
 EVALUATOR_BATCH_SIZE=50
 MAX_UPLOAD_MB=10
@@ -77,7 +78,7 @@ Restart Streamlit after changing environment configuration. Never commit `.env`.
 - `reason_registry` owns source-reason aliases, structured mappings, and business labels.
 - Classifiers and evaluators depend on an `LLMClient` protocol, so provider adapters can be replaced in tests or production.
 - The OpenAI-compatible adapter caches structured LangChain runnables, applies bounded retry/backoff, and records usage.
-- The pipeline preserves input order, sends bulk classifications and final evaluations in bounded batches, limits concurrent strong-model requests, and stops new AI work after fatal provider/configuration errors.
+- The pipeline preserves input order, runs bounded bulk/evaluator batches concurrently, separately limits strong-model requests, and stops new AI work after fatal provider/configuration errors.
 - Shared dashboard components keep overview and detailed analysis calculations consistent.
 
 ## Tests

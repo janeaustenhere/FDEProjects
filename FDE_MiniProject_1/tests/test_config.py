@@ -15,6 +15,7 @@ def test_settings_loads_operational_values_from_environment(monkeypatch, tmp_pat
         "OPENROUTER_TEMPERATURE": "0.25",
         "CONFIDENCE_THRESHOLD": "0.8",
         "MAX_CONCURRENT_REQUESTS": "3",
+        "MAX_CONCURRENT_BATCHES": "2",
         "MAX_BATCH_SIZE": "25",
         "EVALUATOR_BATCH_SIZE": "50",
         "MAX_UPLOAD_MB": "7",
@@ -35,6 +36,7 @@ def test_settings_loads_operational_values_from_environment(monkeypatch, tmp_pat
     assert settings.temperature == 0.25
     assert settings.confidence_threshold == 0.8
     assert settings.max_concurrent_requests == 3
+    assert settings.max_concurrent_batches == 2
     assert settings.max_batch_size == 25
     assert settings.evaluator_batch_size == 50
     assert settings.max_upload_mb == 7

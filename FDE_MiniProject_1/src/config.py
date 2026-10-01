@@ -54,6 +54,7 @@ class Settings:
     provider_name: str = "OpenRouter"
     confidence_threshold: float = 0.75
     max_concurrent_requests: int = 5
+    max_concurrent_batches: int = 3
     max_batch_size: int = 50
     evaluator_batch_size: int = 50
     max_upload_mb: int = 10
@@ -85,6 +86,7 @@ class Settings:
             raise ValueError("OPENROUTER_TEMPERATURE must be between 0 and 2")
         for name, value in {
             "MAX_CONCURRENT_REQUESTS": self.max_concurrent_requests,
+            "MAX_CONCURRENT_BATCHES": self.max_concurrent_batches,
             "MAX_BATCH_SIZE": self.max_batch_size,
             "EVALUATOR_BATCH_SIZE": self.evaluator_batch_size,
             "MAX_UPLOAD_MB": self.max_upload_mb,
@@ -121,6 +123,7 @@ class Settings:
             provider_name=os.getenv("LLM_PROVIDER_NAME", "OpenRouter"),
             confidence_threshold=_float("CONFIDENCE_THRESHOLD", 0.75),
             max_concurrent_requests=_int("MAX_CONCURRENT_REQUESTS", 5),
+            max_concurrent_batches=_int("MAX_CONCURRENT_BATCHES", 3),
             max_batch_size=_int("MAX_BATCH_SIZE", 50),
             evaluator_batch_size=_int("EVALUATOR_BATCH_SIZE", 50),
             max_upload_mb=_int("MAX_UPLOAD_MB", 10),

@@ -1,4 +1,6 @@
 from dataclasses import replace
+from threading import Lock
+import time
 
 from src.config import Settings
 from src.cost_tracker import UsageTracker
@@ -125,6 +127,58 @@ class ExplodingEvaluator:
         raise AssertionError("Evaluator should not run for an explicitly uncertain strong result")
 
 
+class ConcurrencyProbe:
+    def __init__(self):
+        self.active = 0
+        self.peak = 0
+        self.lock = Lock()
+
+    def enter(self):
+        with self.lock:
+            self.active += 1
+            self.peak = max(self.peak, self.active)
+
+    def leave(self):
+        with self.lock:
+            self.active -= 1
+
+
+class ParallelBulkClassifier(FakeClassifier):
+    def __init__(self, probe):
+        super().__init__()
+        self.probe = probe
+
+    def classify_batch(self, records):
+        self.batch_calls += 1
+        self.probe.enter()
+        try:
+            time.sleep(0.04)
+            return [FakeClassifier.classify(self, item) for item in records]
+        finally:
+            self.probe.leave()
+
+
+class ParallelEvaluator(FakeEvaluator):
+    def __init__(self, probe):
+        super().__init__()
+        self.probe = probe
+
+    def evaluate_batch(self, candidates):
+        self.calls += 1
+        self.probe.enter()
+        try:
+            time.sleep(0.04)
+            return {
+                record.return_id: EvaluationResult(
+                    supported_by_comment=True, taxonomy_consistent=True,
+                    hallucination_detected=False, recommended_action="ACCEPT", explanation="Supported",
+                )
+                for record, _ in candidates
+            }
+        finally:
+            self.probe.leave()
+
+
 def record(comment="tight"):
     return ReturnRecord(return_id="R1", sku_id="S1", category="Top", return_reason="Other", return_comment=comment)
 
@@ -204,7 +258,7 @@ def test_uncertain_strong_result_goes_directly_to_human_review():
 
 def test_fatal_provider_error_stops_new_ai_calls_but_keeps_all_records():
     bulk = FatalClassifier()
-    settings = replace(Settings(), max_concurrent_requests=1, max_batch_size=2)
+    settings = replace(Settings(), max_concurrent_requests=1, max_concurrent_batches=1, max_batch_size=2)
     records = [
         ReturnRecord(
             return_id=f"R{index}", sku_id="S1", category="Top",
@@ -257,3 +311,30 @@ def test_bulk_and_evaluator_use_configured_batches_of_fifty():
     assert evaluator.calls == 3
     assert strong.calls == 0
     assert all(item.processing_status.value == "ACCEPTED" for item in output.results)
+
+
+def test_bulk_and_evaluator_batches_run_with_bounded_parallelism():
+    bulk_probe = ConcurrencyProbe()
+    evaluator_probe = ConcurrencyProbe()
+    bulk = ParallelBulkClassifier(bulk_probe)
+    evaluator = ParallelEvaluator(evaluator_probe)
+    settings = replace(
+        Settings(), max_batch_size=10, evaluator_batch_size=10,
+        max_concurrent_batches=3,
+    )
+    records = [
+        ReturnRecord(
+            return_id=f"P{index:03d}", sku_id="S1", category="Top",
+            return_reason="Other", return_comment="tight",
+        )
+        for index in range(30)
+    ]
+
+    output = ReturnsPipeline(
+        bulk, CountingClassifier(name="strong"), evaluator, UsageTracker(), settings,
+    ).run(records)
+
+    assert len(output.results) == 30
+    assert bulk_probe.peak == 3
+    assert evaluator_probe.peak == 3
+    assert output.metadata["max_concurrent_batches"] == 3

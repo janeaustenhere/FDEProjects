@@ -139,6 +139,8 @@ class ReturnsPipeline:
             return failed_result(record, f"Unexpected processing error: {exc}")
 
     def _bulk_batch(self, records: list[ReturnRecord]) -> list[ClassificationResult] | None:
+        if self._fatal_event.is_set():
+            raise LLMUnavailableError(self._fatal_reason or "AI provider unavailable", stage="bulk")
         try:
             return self.bulk.classify_batch(records)
         except LLMResponseError as first_error:
@@ -156,6 +158,8 @@ class ReturnsPipeline:
         self,
         candidates: list[tuple[ReturnRecord, ClassificationResult]],
     ) -> dict[str, EvaluationResult]:
+        if self._fatal_event.is_set():
+            raise LLMUnavailableError(self._fatal_reason or "AI provider unavailable", stage="evaluator")
         try:
             return self.evaluator.evaluate_batch(candidates)
         except LLMResponseError as first_error:
@@ -197,30 +201,18 @@ class ReturnsPipeline:
         evaluation_candidates: list[tuple[int, ReturnRecord, ClassificationResult, str]] = []
         strong_tasks: list[tuple[int, ReturnRecord, ClassificationResult | None]] = []
 
-        for start in range(0, len(ai_records), self.settings.max_batch_size):
-            indexed_batch = ai_records[start : start + self.settings.max_batch_size]
-            if self._fatal_event.is_set():
-                for index, record in indexed_batch:
-                    finalize(index, self._fatal_result(record))
-                continue
-            batch_records = [record for _, record in indexed_batch]
-            try:
-                bulk_results = self._bulk_batch(batch_records)
-            except LLMError as exc:
-                if self._is_run_fatal(exc):
-                    self._record_fatal_error(exc)
-                for index, record in indexed_batch:
-                    finalize(index, self._fatal_result(record) if self._fatal_event.is_set() else failed_result(record, str(exc)))
-                continue
-            except Exception as exc:
-                logger.exception("Unexpected bulk batch failure")
-                for index, record in indexed_batch:
-                    finalize(index, failed_result(record, f"Unexpected bulk processing error: {exc}"))
-                continue
+        bulk_batches = [
+            ai_records[start : start + self.settings.max_batch_size]
+            for start in range(0, len(ai_records), self.settings.max_batch_size)
+        ]
 
+        def handle_bulk_batch(
+            indexed_batch: list[tuple[int, ReturnRecord]],
+            bulk_results: list[ClassificationResult] | None,
+        ) -> None:
             if bulk_results is None:
                 strong_tasks.extend((index, record, None) for index, record in indexed_batch)
-                continue
+                return
             for (index, record), bulk_result in zip(indexed_batch, bulk_results, strict=True):
                 route, route_reason = should_route(bulk_result, self.settings.confidence_threshold)
                 logger.info("Route decision return_id=%s route=%s reason=%s", record.return_id, route, route_reason)
@@ -228,6 +220,29 @@ class ReturnsPipeline:
                     strong_tasks.append((index, record, bulk_result))
                 else:
                     evaluation_candidates.append((index, record, bulk_result, "bulk"))
+
+        batch_workers = max(1, min(self.settings.max_concurrent_batches, len(bulk_batches) or 1))
+        with ThreadPoolExecutor(max_workers=batch_workers) as pool:
+            futures = {
+                pool.submit(self._bulk_batch, [record for _, record in indexed_batch]): indexed_batch
+                for indexed_batch in bulk_batches
+            }
+            for future in as_completed(futures):
+                indexed_batch = futures[future]
+                try:
+                    handle_bulk_batch(indexed_batch, future.result())
+                except LLMError as exc:
+                    if self._is_run_fatal(exc):
+                        self._record_fatal_error(exc)
+                    for index, record in indexed_batch:
+                        finalize(index, self._fatal_result(record) if self._fatal_event.is_set() else failed_result(record, str(exc)))
+                except Exception as exc:
+                    logger.exception("Unexpected bulk batch failure")
+                    for index, record in indexed_batch:
+                        finalize(index, failed_result(record, f"Unexpected bulk processing error: {exc}"))
+
+        evaluation_candidates.sort(key=lambda item: item[0])
+        strong_tasks.sort(key=lambda item: item[0])
 
         def run_strong(
             tasks: list[tuple[int, ReturnRecord, ClassificationResult | None]],
@@ -260,56 +275,57 @@ class ReturnsPipeline:
         ) -> list[tuple[int, ReturnRecord, ClassificationResult | None]]:
             escalations: list[tuple[int, ReturnRecord, ClassificationResult | None]] = []
             size = self.settings.evaluator_batch_size
-            for start in range(0, len(candidates), size):
-                batch = candidates[start : start + size]
-                if self._fatal_event.is_set():
-                    reason = self._fatal_reason or "AI provider unavailable"
-                    for index, _, candidate, _ in batch:
-                        finalize(index, candidate.model_copy(update={
-                            "processing_status": ProcessingStatus.HUMAN_REVIEW,
-                            "needs_human_review": True,
-                            "failure_reason": f"Evaluator could not verify classification: {reason}",
-                        }))
-                    continue
-                try:
-                    evaluations = self._evaluator_batch([
-                        (record, candidate) for _, record, candidate, _ in batch
-                    ])
-                except LLMError as exc:
-                    if self._is_run_fatal(exc):
-                        self._record_fatal_error(exc)
-                    for index, _, candidate, _ in batch:
-                        finalize(index, candidate.model_copy(update={
-                            "processing_status": ProcessingStatus.HUMAN_REVIEW,
-                            "needs_human_review": True,
-                            "failure_reason": f"Evaluator could not verify classification: {exc}",
-                        }))
-                    continue
-                except Exception as exc:
-                    logger.exception("Unexpected evaluator batch failure")
-                    for index, _, candidate, _ in batch:
-                        finalize(index, candidate.model_copy(update={
-                            "processing_status": ProcessingStatus.HUMAN_REVIEW,
-                            "needs_human_review": True,
-                            "failure_reason": f"Unexpected evaluator error: {exc}",
-                        }))
-                    continue
+            batches = [
+                candidates[start : start + size]
+                for start in range(0, len(candidates), size)
+            ]
 
-                for index, record, candidate, source in batch:
-                    accepted, evaluated = self._apply_evaluation(
-                        candidate, evaluations[record.return_id]
-                    )
-                    if accepted:
-                        finalize(index, evaluated)
-                    elif source == "bulk" and escalate_bulk_rejections:
-                        logger.info(
-                            "Escalating evaluator-rejected bulk result return_id=%s reason=%s",
-                            record.return_id,
-                            evaluated.failure_reason,
+            def evaluator_review(batch, reason: str) -> None:
+                for index, _, candidate, _ in batch:
+                    finalize(index, candidate.model_copy(update={
+                        "processing_status": ProcessingStatus.HUMAN_REVIEW,
+                        "needs_human_review": True,
+                        "failure_reason": reason,
+                    }))
+
+            workers = max(1, min(self.settings.max_concurrent_batches, len(batches) or 1))
+            with ThreadPoolExecutor(max_workers=workers) as pool:
+                futures = {
+                    pool.submit(
+                        self._evaluator_batch,
+                        [(record, candidate) for _, record, candidate, _ in batch],
+                    ): batch
+                    for batch in batches
+                }
+                for future in as_completed(futures):
+                    batch = futures[future]
+                    try:
+                        evaluations = future.result()
+                    except LLMError as exc:
+                        if self._is_run_fatal(exc):
+                            self._record_fatal_error(exc)
+                        evaluator_review(batch, f"Evaluator could not verify classification: {exc}")
+                        continue
+                    except Exception as exc:
+                        logger.exception("Unexpected evaluator batch failure")
+                        evaluator_review(batch, f"Unexpected evaluator error: {exc}")
+                        continue
+
+                    for index, record, candidate, source in batch:
+                        accepted, evaluated = self._apply_evaluation(
+                            candidate, evaluations[record.return_id]
                         )
-                        escalations.append((index, record, candidate))
-                    else:
-                        finalize(index, evaluated)
+                        if accepted:
+                            finalize(index, evaluated)
+                        elif source == "bulk" and escalate_bulk_rejections:
+                            logger.info(
+                                "Escalating evaluator-rejected bulk result return_id=%s reason=%s",
+                                record.return_id,
+                                evaluated.failure_reason,
+                            )
+                            escalations.append((index, record, candidate))
+                        else:
+                            finalize(index, evaluated)
             return escalations
 
         evaluator_escalations = evaluate_round(
@@ -332,5 +348,6 @@ class ReturnsPipeline:
                 "confidence_threshold": self.settings.confidence_threshold,
                 "bulk_batch_size": self.settings.max_batch_size,
                 "evaluator_batch_size": self.settings.evaluator_batch_size,
+                "max_concurrent_batches": self.settings.max_concurrent_batches,
             },
         )
